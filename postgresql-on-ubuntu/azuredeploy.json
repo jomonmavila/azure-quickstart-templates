@@ -24,7 +24,7 @@
     "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Virtual machine administrator password"
+        "description": "Virtual Machine administrator password"
       }
     },
     "tshirtSize": {
