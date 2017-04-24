@@ -42,15 +42,10 @@
           {
             "name": "[parameters('networkSettings').subnets]",
             "properties": {
-              "addressPrefix": "[parameters('dbSubnetAddressPrefix')]"
+              "addressPrefix": "[parameters('AddressPrefix')]"
             }
           },
-          {
-            "name": "[parameters('networkSettings').subnets]",
-            "properties": {
-              "addressPrefix": "[parameters('dbSubnetAddressPrefix')]"
-            }
-          }
+          
         ]
       }
     },
