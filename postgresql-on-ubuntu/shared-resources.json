@@ -40,15 +40,15 @@
         },
         "subnets": [
           {
-            "name": "[parameters('networkSettings').subnets.dmz.name]",
+            "name": "[parameters('networkSettings').subnets]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnets.dmz.prefix]"
+              "addressPrefix": "[parameters('dbSubnetAddressPrefix')]"
             }
           },
           {
-            "name": "[parameters('networkSettings').subnets.data.name]",
+            "name": "[parameters('networkSettings').subnets]",
             "properties": {
-              "addressPrefix": "[parameters('networkSettings').subnets.data.prefix]"
+              "addressPrefix": "[parameters('dbSubnetAddressPrefix')]"
             }
           }
         ]
