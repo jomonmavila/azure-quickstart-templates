@@ -17,9 +17,7 @@
     "machineSettings": {
       "type": "object"
     },
-    "subnet": {
-      "type": "object"
-    },
+   
     "replicatorPassword": {
       "type": "securestring"
     },
