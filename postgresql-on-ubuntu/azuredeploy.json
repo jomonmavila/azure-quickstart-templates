@@ -27,6 +27,52 @@
         "description": "Virtual machine administrator password"
       }
     },
+     "vnetNewOrExisting": {
+            "type": "string",
+            "defaultValue": "new",
+            "allowedValues": [
+                "new",
+                "existing"
+            ],
+            "metadata": {
+                "description": "Identifies whether to use new or existing Virtual Network"
+            }
+        },
+        "virtualNetworkExistingRGName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "If using existing VNet, specifies the resource group for the existing VNet"
+            }
+        },
+        "dbSubnetName": {
+            "type": "string",
+            "defaultValue": "dbsubnet",
+            "metadata": {
+                "description": "subnet name for the MySQL nodes"
+            }
+        },
+        "vnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16",
+            "metadata": {
+                "description": "IP address in CIDR for virtual network"
+            }
+        },
+        "dbSubnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24",
+            "metadata": {
+                "description": "IP address in CIDR for db subnet"
+            }
+        },
+        "dbSubnetStartAddress": {
+            "type": "string",
+            "defaultValue": "10.0.1.4",
+            "metadata": {
+                "description": "Start IP address in the subnet for the VMs"
+            }
+        },
     "tshirtSize": {
       "type": "string",
       "defaultValue": "Small",
