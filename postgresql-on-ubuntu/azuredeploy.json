@@ -203,19 +203,11 @@
     },
     "networkSettings": {
       "vnetName": "[parameters('virtualNetworkName')]",
-      "addressPrefix": "10.0.0.0/16",
-      "subnets": {
-        "dmz": {
-          "name": "dmz",
-          "prefix": "10.0.0.0/24",
-          "vnet": "[parameters('virtualNetworkName')]"
-        },
-        "data": {
-          "name": "data",
-          "prefix": "10.0.1.0/24",
-          "vnet": "[parameters('virtualNetworkName')]"
-        }
-      }
+      "addressPrefix": "[parameters('vnetAddressPrefix')]",
+      "subnets": "[parameters('dbSubnetName')]"
+       
+       
+      
     },
     "availabilitySetSettings": {
       "name": "pgsqlAvailabilitySet",
@@ -271,7 +263,7 @@
             "value": "[variables('osSettings')]"
           },
           "subnet": {
-            "value": "[variables('networkSettings').subnets.data]"
+            "value": "[variables('networkSettings').subnets]"
           },
           "commonSettings": {
             "value": {
@@ -323,7 +315,7 @@
             "value": "[variables('osSettings')]"
           },
           "subnet": {
-            "value": "[variables('networkSettings').subnets.data]"
+            "value": "[variables('networkSettings').subnets]"
           },
           "commonSettings": {
             "value": {
@@ -383,7 +375,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "subnet": {
-            "value": "[variables('networkSettings').subnets.dmz]"
+            "value": "[variables('networkSettings').subnets]"
           },
           "osSettings": {
             "value": "[variables('osSettings')]"
