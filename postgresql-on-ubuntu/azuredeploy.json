@@ -109,10 +109,24 @@
       "metadata": {
         "description": "Virtual network name"
       }
-    }
+    },
+    "artifactsPath": {
+            "type": "string",
+            "defaultValue": "https://raw.githubusercontent.com/jomonmavila/azure-quickstart-templates/master/mysql-replication",
+            "metadata": {
+                "description": "template and script file location",
+                "artifactsBaseUrl": "Base URL of the Publisher Template gallery package"
+            }
+        },
   },
   "variables": {
     "templateBaseUrl": "https://raw.githubusercontent.com/jomonmavila/azure-quickstart-templates/master/postgresql-on-ubuntu/",
+    "virtualNetworkSetupURL": "[concat(parameters('artifactsPath'),'/vnet-',parameters('vnetNewOrExisting'),'.json')]",
+    "sa": "[parameters('dbSubnetStartAddress')]",
+    "ipOctet01": "[concat(split(variables('sa'), '.')[0], '.', split(variables('sa'), '.')[1], '.')]",
+    "ipOctet2": "[int(split(variables('sa'), '.')[2])]",
+    "ipOctet3": "[int(split(variables('sa'), '.')[3])]",
+    
     "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
     "tshirtSizeSmall": {
       "vmSize": "Standard_A1",
@@ -201,14 +215,7 @@
         "version": "latest"
       }
     },
-    "networkSettings": {
-      "vnetName": "[parameters('virtualNetworkName')]",
-      "addressPrefix": "[parameters('vnetAddressPrefix')]",
-      "subnets": "[parameters('dbSubnetName')]"
-       
-       
-      
-    },
+    
     "availabilitySetSettings": {
       "name": "pgsqlAvailabilitySet",
       "fdCount": 3,
@@ -216,6 +223,38 @@
     }
   },
   "resources": [
+    
+    {
+            "name": "SettingUpVirtualNetwork",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "[variables('templateAPIVersion')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('virtualNetworkSetupURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkName": {
+                        "value": "[parameters('virtualNetworkName')]"
+                    },
+                    "virtualNetworkAddressPrefix": {
+                        "value": "[parameters('vnetAddressPrefix')]"
+                    },
+                    "dbSubnetName": {
+                        "value": "[parameters('dbSubnetName')]"
+                    },
+                    "dbSubnetAddressPrefix": {
+                        "value": "[parameters('dbSubnetAddressPrefix')]"
+                    },
+                    "virtualNetworkExistingRGName": {
+                        "value": "[parameters('virtualNetworkExistingRGName')]"
+                    }
+                }
+            }
+        },
+    
+    
     {
       "name": "shared",
       "type": "Microsoft.Resources/deployments",
@@ -230,9 +269,7 @@
           "storageSettings": {
             "value": "[variables('tshirtSize').storage]"
           },
-          "networkSettings": {
-            "value": "[variables('networkSettings')]"
-          },
+          
           "availabilitySetSettings": {
             "value": "[variables('availabilitySetSettings')]"
           }
@@ -262,9 +299,9 @@
           "osSettings": {
             "value": "[variables('osSettings')]"
           },
-          "subnet": {
-            "value": "[variables('networkSettings').subnets]"
-          },
+          "dbSubnetName": {
+                        "value": "[parameters('dbSubnetName')]"
+                    },
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
@@ -314,9 +351,9 @@
           "osSettings": {
             "value": "[variables('osSettings')]"
           },
-          "subnet": {
-            "value": "[variables('networkSettings').subnets]"
-          },
+          "dbSubnetName": {
+                        "value": "[parameters('dbSubnetName')]"
+                    },
           "commonSettings": {
             "value": {
               "adminUsername": "[parameters('adminUsername')]",
@@ -374,9 +411,9 @@
           "adminPassword": {
             "value": "[parameters('adminPassword')]"
           },
-          "subnet": {
-            "value": "[variables('networkSettings').subnets]"
-          },
+         "dbSubnetName": {
+                        "value": "[parameters('dbSubnetName')]"
+                    },
           "osSettings": {
             "value": "[variables('osSettings')]"
           }
